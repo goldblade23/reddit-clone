@@ -10,7 +10,7 @@ class Post(models.Model):
     title = models.CharField(max_length=100)
     text = models.TextField(max_length=200)
     author = models.ForeignKey(RedditUser, on_delete=models.CASCADE)
-    date = models.DateTimeField(auto_now_add=True,blank=True)
+    # date = models.DateTimeField(auto_now_add=True,blank=True)
     post_likes = models.ManyToManyField(RedditUser, related_name="post_likes")
     post_dislikes = models.ManyToManyField(RedditUser, related_name="post_dislikes")
     

@@ -9,7 +9,7 @@ class Community(models.Model):
     moderators = models.ManyToManyField(RedditUser, related_name="moderator")
     description = models.TextField(max_length=200)
     rules = models.TextField(max_length=200)
-    date = models.DateTimeField(auto_now_add=True,blank=True)
+    # date = models.DateTimeField(auto_now_add=True,blank=True)
     banlist = models.ManyToManyField(RedditUser, related_name="banned")
     subscriber = models.ManyToManyField(RedditUser, related_name="subsribers")
 
