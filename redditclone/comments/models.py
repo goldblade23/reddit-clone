@@ -10,7 +10,7 @@ class Comment(models.Model):
     commenter = models.ForeignKey(RedditUser, on_delete=models.CASCADE)
     text = models.TextField(max_length=200)
     reply = models.ForeignKey('self', on_delete=models.CASCADE, blank=True, null=True)
-    date = models.DateTimeField(auto_now_add=True,blank=True)
+    # date = models.DateTimeField(auto_now_add=True,blank=True)
     comment_likes = models.ManyToManyField(RedditUser, related_name="comment_likes")
     comment_dislikes = models.ManyToManyField(RedditUser, related_name="comment_dislikes")
 
