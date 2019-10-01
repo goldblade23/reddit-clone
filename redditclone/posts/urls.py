@@ -1,6 +1,6 @@
 from django.urls import path
 
-# from redditclone.posts.views import post_community_view, index
+from redditclone.posts.views import post_community_view
 
 urlpatterns = [
    # path('', index),
