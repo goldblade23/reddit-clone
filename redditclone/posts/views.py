@@ -5,12 +5,12 @@ from redditclone.posts.forms import PostForm
 from redditclone.posts.models import Post
 from redditclone.communitys.models import Community
 
-def index(request, *args, **kwargs):
-    html = "Mainpage.html"
+# def index(request, *args, **kwargs):
+#     html = "Mainpage.html"
 
-    posts = Post.objects.all()
+#     posts = Post.objects.all()
 
-    return render(request, html, {'data': posts})
+#     return render(request, html, {'data': posts})
 
 
 def post_community_view(request,  commun, *args, **kwargs):
