@@ -8,7 +8,7 @@ from redditclone.redditUsers.models import RedditUser
 
 class Post(models.Model):
     community = models.ForeignKey(Community, on_delete=models.CASCADE)
-    # link_post = models.BooleanField(default=False)
+    urls = models.URLField(max_length=250)
     title = models.CharField(max_length=100)
     text = models.TextField(max_length=200)
     author = models.ForeignKey(RedditUser, on_delete=models.CASCADE)
