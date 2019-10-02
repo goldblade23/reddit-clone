@@ -16,7 +16,7 @@ Including another URLconf
 from django.urls import path
 from django.contrib import admin
 
-from redditclone.authentication.views import index
+from redditclone.authentication.views import index, login_view, logout_view, signup
 from redditclone.redditUsers.models import RedditUser
 from redditclone.communitys.models import Community
 from redditclone.posts.models import Post
@@ -39,7 +39,9 @@ admin.site.register(Notification)
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', index, name="homepage"),
-    
+    path("login/", login_view),
+    path("login/", logout_view),
+    path("signup/", signup),
 ]
 
 # urlpatterns += auth_urls
