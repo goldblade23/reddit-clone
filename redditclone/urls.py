@@ -16,14 +16,13 @@ Including another URLconf
 from django.urls import path
 from django.contrib import admin
 
-from redditclone.authentication.views import index, login_view, logout_view, signup
 from redditclone.redditUsers.models import RedditUser
 from redditclone.communitys.models import Community
 from redditclone.posts.models import Post
 from redditclone.comments.models import Comment
 from redditclone.notifications.models import Notification
 
-# from redditclone.authentication.urls import urlpatterns as auth_urls
+from redditclone.authentication.urls import urlpatterns as auth_urls
 # from redditclone.redditUsers.urls import urlpatterns as redditusers_urls
 from redditclone.communitys.urls import urlpatterns as communitys_urls
 from redditclone.posts.urls import urlpatterns as posts_urls
@@ -38,13 +37,9 @@ admin.site.register(Notification)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', index, name="homepage"),
-    path("login/", login_view),
-    path("login/", logout_view),
-    path("signup/", signup),
 ]
 
-# urlpatterns += auth_urls
+urlpatterns += auth_urls
 # urlpatterns += redditusers_urls
 urlpatterns += communitys_urls
 urlpatterns += posts_urls
