@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 from redditclone.communitys.models import Community
 from redditclone.redditUsers.models import RedditUser
 
+
 class Post(models.Model):
     community = models.ForeignKey(Community, on_delete=models.CASCADE)
     # link_post = models.BooleanField(default=False)
@@ -16,3 +17,5 @@ class Post(models.Model):
     
     def __str__(self):
         return f"{self.title} - {self.author.displayname}"
+
+
