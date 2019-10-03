@@ -2,6 +2,7 @@ from redditclone.authentication.forms import LoginForm, SignupForm
 from django.shortcuts import render, HttpResponseRedirect, reverse
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
+from django.contrib.auth.decorators import login_required
 # from django.db import IntegrityError
 # from django.contrib.admin.views.decorators import staff_member_required
 
@@ -10,8 +11,9 @@ from redditclone.authentication.forms import LoginForm, SignupForm
 from redditclone.redditUsers.models import RedditUser
 
 
+@login_required()
 def index(request, *args, **kwargs):
-    html = 'base.html'
+    html = 'home.html'
     return render(request, html)
 
 
