@@ -1,3 +1,5 @@
+<a href="/"><button style="color:#1A5276">Go Home!</button></a>
+
 {% extends 'base.html' %}
 {% load crispy_forms_tags %}
 {% block content %}
@@ -7,8 +9,11 @@
         {% csrf_token %}
         {{ form|crispy }}
     <br>
+   
     <div class="col-6">
         <input type="submit" value="Login" btn btn-primary/>
+        or
+    <a href="/signup/">signup</a>
     <br>
     <br>
         <small id="emailHelp" class="form-text text-muted">We'll never share your information with anyone else.</small>

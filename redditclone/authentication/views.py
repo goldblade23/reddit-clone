@@ -9,12 +9,24 @@ from django.contrib.auth.decorators import login_required
 from redditclone.authentication.forms import LoginForm, SignupForm
 
 from redditclone.redditUsers.models import RedditUser
+from redditclone.posts.models import Post
 
 
 @login_required()
 def index(request, *args, **kwargs):
+
+    # html = 'base.html'
+    # html = "Mainpage.html"
     html = 'home.html'
-    return render(request, html)
+
+    posts = Post.objects.all()
+    try:
+        reddituser = RedditUser.objects.get(user=request.user)
+    except:
+        reddituser = ''
+    return render(request, html, {'data': posts, "reddituser":reddituser})
+
+
 
 
 def signup(request):
@@ -46,7 +58,7 @@ def login_view(request):
         if form.is_valid():
             data = form.cleaned_data
             u = authenticate(username=data["username"], password=data["password"])
-            if user is not None:
+            if u is not None:
                 login(request, u)
             else:
                 return HttpResponseRedirect(reverse('login'))
