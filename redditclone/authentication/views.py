@@ -2,6 +2,7 @@ from redditclone.authentication.forms import LoginForm, SignupForm
 from django.shortcuts import render, HttpResponseRedirect, reverse
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
+from django.contrib.auth.decorators import login_required
 # from django.db import IntegrityError
 # from django.contrib.admin.views.decorators import staff_member_required
 
@@ -11,9 +12,12 @@ from redditclone.redditUsers.models import RedditUser
 from redditclone.posts.models import Post
 
 
+@login_required()
 def index(request, *args, **kwargs):
+
     # html = 'base.html'
-    html = "Mainpage.html"
+    # html = "Mainpage.html"
+    html = 'home.html'
 
     posts = Post.objects.all()
     try:
@@ -21,6 +25,8 @@ def index(request, *args, **kwargs):
     except:
         reddituser = ''
     return render(request, html, {'data': posts, "reddituser":reddituser})
+
+
 
 
 def signup(request):
