@@ -1,10 +1,14 @@
+<a href="/"><button style="color:#1A5276">Go Home!</button></a>
+
 <form action="" method="post">
         {% csrf_token %}
         {{ form.as_p }}
     <br>
     <br>
         <input type="submit" value="Login" id="button" style="color:#1A5276;font-size:16px;"/>
-    <br>
+   
+    or
+    <a href="/signup/">signup</a>
     <br>
         <small id="emailHelp" class="form-text text-muted">We'll never share your information with anyone else.</small>
     </form>

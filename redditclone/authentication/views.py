@@ -8,11 +8,19 @@ from django.contrib.auth.models import User
 from redditclone.authentication.forms import LoginForm, SignupForm
 
 from redditclone.redditUsers.models import RedditUser
+from redditclone.posts.models import Post
 
 
 def index(request, *args, **kwargs):
-    html = 'base.html'
-    return render(request, html)
+    # html = 'base.html'
+    html = "Mainpage.html"
+
+    posts = Post.objects.all()
+    try:
+        reddituser = RedditUser.objects.get(user=request.user)
+    except:
+        reddituser = ''
+    return render(request, html, {'data': posts, "reddituser":reddituser})
 
 
 def signup(request):
@@ -44,7 +52,7 @@ def login_view(request):
         if form.is_valid():
             data = form.cleaned_data
             u = authenticate(username=data["username"], password=data["password"])
-            if user is not None:
+            if u is not None:
                 login(request, u)
             else:
                 return HttpResponseRedirect(reverse('login'))

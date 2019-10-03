@@ -7,30 +7,23 @@
 <a href="/signup/">signup</a>
 {% endif %}
 
-<h1>r/{{community.name}}</h1>
-
 <hr>
 
 {% if request.user.is_authenticated %}
 <a href="/createcommunity/">create new community</a>
 <p>create new post</p>
-<a href="/r/{{community.name}}/addtextpost">text</a>
+<a href="/r/{{post.community.name}}/addtextpost">text</a>
 or
-<a href="/r/{{community.name}}/addlinkpost">link</a>
+<a href="/r/{{post.community.name}}/addlinkpost">link</a>
 {% else %}
 <a href="/login/">create new community</a>
 {% endif %}
 
 <hr>
 
-{% for post in data %}
-    {% if post.urls %}
-    <a href='{{post.urls}}'><h2>{{post.title}}</h2></a>
-    {% else %}
-    <a href='/r/{{post.community.name}}/post/{{post.id}}'><h2>{{post.title}}</h2></a>
-    {% endif %}
+
+    <h2>{{post.title}}</h2>
     <p>posted at <a href="/r/{{post.community.name}}">r/{{post.community.name}}</a></p>
     <p>{{post.text}}</p>
     <b>{{post.date}}</b>
     <p>likes: {{post.post_likes.count}}</p>
-{% endfor %}
