@@ -5,11 +5,11 @@ from redditclone.redditUsers.models import RedditUser
 
 class Community(models.Model):
     creator = models.ForeignKey(RedditUser, on_delete=models.CASCADE)
-    name = models.CharField(max_length=20)
+    name = models.CharField(max_length=20, unique=True)
     moderators = models.ManyToManyField(RedditUser, related_name="moderator")
     description = models.TextField(max_length=200)
     rules = models.TextField(max_length=200)
-    # date = models.DateTimeField(auto_now_add=True,blank=True)
+    date = models.DateTimeField(auto_now_add=True,blank=True)
     banlist = models.ManyToManyField(RedditUser, related_name="banned")
     subscriber = models.ManyToManyField(RedditUser, related_name="subsribers")
 

@@ -1,5 +1,4 @@
 from django import forms
-from django.forms import ModelForm
 
 
 class LoginForm(forms.Form):
@@ -8,7 +7,10 @@ class LoginForm(forms.Form):
 
 
 class SignupForm(forms.Form):
-    name = forms.CharField(max_length=50)
-    bio = forms.CharField(widget=forms.Textarea)
     username = forms.CharField(max_length=50)
     password = forms.CharField(widget=forms.PasswordInput)
+    displayname = forms.CharField(max_length=30)
+    bio = forms.CharField(widget=forms.Textarea)
+    birthdate =  forms.DateField(widget=forms.SelectDateWidget)
+    
+
