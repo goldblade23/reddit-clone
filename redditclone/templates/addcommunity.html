@@ -1,9 +1,24 @@
-{% load bootstrap4 %}
+{% extends 'base.html' %}
+<b>Logged in user:</b> {{ request.user.username}}
 
-{{request.user.username}}
+{% load crispy_forms_tags %}
 
+{% block content %}
+
+<h4 style="color: #FF4E00">Ready to create your community?</h4>
+<br>
+<div class="mx-auto" style="width: 70%;" style="background-color: #ECE8E8;">
+    <div class="col" style="background-color: #ECE8E8;">
 <form action="" method="post">
     {% csrf_token %}
-    {{ form.as_p }}
-    <input type='submit' value='submit'>
+    {{ form|crispy }}
+<br>
+</div>
+<br>
+    <input class="btn btn-success" type='submit' value='submit'>
+<br>
+<br>
+<br>
 </form>
+</div>
+{% endblock %}
