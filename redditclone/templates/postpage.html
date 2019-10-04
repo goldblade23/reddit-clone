@@ -27,3 +27,42 @@ or
     <p>{{post.text}}</p>
     <b>{{post.date}}</b>
     <p>likes: {{post.post_likes.count}}</p>
+
+    <hr>
+    <form action="" method="post">
+        {% csrf_token %}
+        {{ form }}
+        <input type="submit" value="Submit">
+    </form>
+    
+    <hr>
+
+    {% load mptt_tags %}
+<ul>
+    {% recursetree comments %}
+        <div id=c-{{node.id}}>
+        <li>
+            <p>{{ node.commenter.displayname }}</p>
+            <b>{{ node.text }}</b>
+            <p>{{ node.date }}</p>
+            <p>{{ node.comment_likes.count }}</p>
+
+
+            <form action="" method="post">
+                {% csrf_token %}
+                {{ form }}
+                <input type="hidden" name="comment_id" value="{{ node.id }}">
+                <input type="submit" value="Submit">
+            </form>
+
+
+
+            {% if not node.is_leaf_node %}
+                <ul class="children">
+                    {{ children }}
+                </ul>
+            {% endif %}
+        </li>
+    </div>
+    {% endrecursetree %}
+</ul>
