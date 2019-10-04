@@ -1,23 +1,19 @@
-<a href="/"><button style="color:#1A5276">Go Home!</button></a>
-
 {% extends 'base.html' %}
+
 {% load crispy_forms_tags %}
+
 {% block content %}
+  <form action="" method="POST">
+    {% csrf_token %}
+    {{ form|crispy }}
+    <button type="submit" value="Submit" class="btn btn-primary">Sign in</button>
+  
+    or 
+    <a class="btn btn-success" href="/signup/" role="button">Sign up</a>
+    <br>
+    <br>
+    <small id="emailHelp" class="form-text text-muted">We'll never share your information with anyone else.</small>
+  </form>
+{% endblock %}
 
-<div class="container"></div>
-<form action="" method="post">
-        {% csrf_token %}
-        {{ form|crispy }}
-    <br>
-   
-    <div class="col-6">
-        <input type="submit" value="Login" btn btn-primary/>
-        or
-    <a href="/signup/">signup</a>
-    <br>
-    <br>
-        <small id="emailHelp" class="form-text text-muted">We'll never share your information with anyone else.</small>
-    </form>
 
-    {% endblock %}
-</div>

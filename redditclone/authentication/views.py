@@ -12,12 +12,12 @@ from redditclone.redditUsers.models import RedditUser
 from redditclone.posts.models import Post
 
 
-# @login_required()
+#@login_required()
 def index(request, *args, **kwargs):
 
     # html = 'base.html'
-    html = "Mainpage.html"
-    # html = 'home.html'
+    # html = "mainpage.html"
+    html = 'home.html'
 
     posts = Post.objects.all()
     try:
@@ -25,8 +25,6 @@ def index(request, *args, **kwargs):
     except:
         reddituser = ''
     return render(request, html, {'data': posts, "reddituser":reddituser})
-
-
 
 
 def signup(request):
