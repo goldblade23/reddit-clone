@@ -27,7 +27,7 @@ def add_community(request, *args, **kwargs):
         return HttpResponseRedirect('/r/{}'.format(community.name))
     form = CommunityForm()
 
-    return render(request,html,{'form': form})
+    return render(request, html, {'form': form})
 
 
     
