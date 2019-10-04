@@ -24,13 +24,20 @@ or
 <hr>
 
 {% for post in data %}
+
+<div name='post_div' id=p-{{post.id}}>
     {% if post.urls %}
     <a href='{{post.urls}}'><h2>{{post.title}}</h2></a>
+    <a href='{{post.urls}}'>{{post.urls}}</a>
     {% else %}
     <a href='/r/{{post.community.name}}/post/{{post.id}}'><h2>{{post.title}}</h2></a>
+    <p>{{post.text}}</p>
     {% endif %}
     <p>posted at <a href="/r/{{post.community.name}}">r/{{post.community.name}}</a></p>
-    <p>{{post.text}}</p>
     <b>{{post.date}}</b>
     <p>likes: {{post.post_likes.count}}</p>
+
+    <a href='/r/{{post.community.name}}/post/{{post.id}}'>comments {{count}}</a>
+</div>
+
 {% endfor %}
