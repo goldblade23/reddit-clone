@@ -3,6 +3,8 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
+
+<div class="container" style="background-color: #ECE8E8">
   <form method="post">
     {% csrf_token %}
     {{ form|crispy }}
@@ -12,7 +14,12 @@
     <br>
     <br>
     <small id="emailHelp" class="form-text text-muted">We'll never share your information with anyone else.</small>
+    <br>
+    <br>
   </form>
+</div>
+<br>
 {% endblock %}
+
 
 

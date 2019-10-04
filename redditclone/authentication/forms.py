@@ -13,4 +13,3 @@ class SignupForm(forms.Form):
     birthdate = forms.DateField(widget=forms.SelectDateWidget)
     bio = forms.CharField(widget=forms.Textarea)
     
-
