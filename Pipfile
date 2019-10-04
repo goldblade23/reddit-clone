@@ -12,6 +12,7 @@ py-three = "*"
 django-bootstrap3 = "*"
 django-bootstrap4 = "*"
 django-crispy-forms = "*"
+django-mptt = "*"
 
 [requires]
 python_version = "3.7"
