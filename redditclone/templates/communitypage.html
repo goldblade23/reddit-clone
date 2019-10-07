@@ -37,7 +37,7 @@ or
     <b>{{post.date}}</b>
     <p>likes: {{post.post_likes.count}}</p>
 
-    <a href='/r/{{post.community.name}}/post/{{post.id}}'>comments {{count}}</a>
+    <a href='/r/{{post.community.name}}/post/{{post.id}}'>comments {{post.get_comment_count}}</a>
 </div>
 
 {% endfor %}

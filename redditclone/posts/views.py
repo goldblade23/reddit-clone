@@ -108,14 +108,5 @@ def post_community_view(request,  commun, *args, **kwargs):
 
     community = Community.objects.get(name=commun)
     posts = Post.objects.filter(community=community)
-    
 
-    comment_count = {}
-    for i in posts:
-        comments_total = Comment.objects.filter(post=Post.objects.get(id=i.id)).count()
-        comment_count[i.id] = comments_total
-
-    
-    
-
-    return render(request, html, {'data': posts, "community": community, "count":comment_count})
+    return render(request, html, {'data': posts, "community": community})
