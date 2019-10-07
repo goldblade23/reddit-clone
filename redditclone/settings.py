@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'redditclone',
     'bootstrap4',
     'crispy_forms',
+    'mptt'
 ]
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
