@@ -45,13 +45,17 @@ or
 </div>
 <div class="container" style="background-color: white;padding-left: 7%;">
 {% for post in data %}
+
+<div name='post_div' id=p-{{post.id}}>
     {% if post.urls %}
+
     <a href='{{post.urls}}'><h3>{{post.title}}</h3></a>
+    <a href='{{post.urls}}'>{{post.urls}}</a>
     {% else %}
     <b>title:</b><a href='/r/{{post.community.name}}/post/{{post.id}}'><h3>{{post.title}}</h3></a>
+    <p>{{post.text}}</p>
     {% endif %}
     <p>posted at <a href="/r/{{post.community.name}}">r/{{post.community.name}}</a></p>
-    <p>{{post.text}}</p>
     <p>{{post.date}}</p>
     <p>likes: {{post.post_likes.count}}</p>
 {% endfor %}
