@@ -1,43 +1,70 @@
+{% extends 'base.html' %}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+<head>
+    <style>
+    h2 {color:#FF4E00;}
+    h3 {color: #33658A;}
+    p {color: #33658A;}
+    b {color:#86BBD8;}
+    </style>
+</head>
+
 <a href="/">home</a>
 {% if request.user.is_authenticated %}
 <a href="/logout/">logout</a>
-<p>Hello, {{request.user.username}}!</p>
+<h3>Hello, {{request.user.username}}!</h3>
 {% else %}
 <a href="/login/">login</a>
 <a href="/signup/">signup</a>
 {% endif %}
 
-<h1>r/{{community.name}}</h1>
-
-<hr>
-
 {% if request.user.is_authenticated %}
-<a href="/createcommunity/">create new community</a>
-<p>create new post</p>
-<a href="/r/{{community.name}}/addtextpost">text</a>
+<br>
+
+<h4>Create a new post:</h4>
+
+<a class="btn btn-primary" href="/r/{{community.name}}/addtextpost" role="button">Text</a>
 or
-<a href="/r/{{community.name}}/addlinkpost">link</a>
+<a class="btn btn-primary" href="/r/{{community.name}}/addlinkpost" role="button">Link</a>
 {% else %}
-<a href="/login/">create new community</a>
+<a href="/login/">Create new community</a>
 {% endif %}
+<br>
+<br>
+<a class="btn btn-success" href="/createcommunity/" role="button">Create new community</a>
+<br>
+<br>
 
-<hr>
-
+<div class="container" style=" size: 25px; background-color: #ECE8E8; text-align: left; align-content: center; padding-bottom: 10px; padding-top: 15px;" >
+    <div class="container" style="background-color: white; text-align: left; padding-bottom: 5px; padding-top: 15px;">
+    <h2>r/{{community.name}}</h2>
+</div>
+<div class="container" style="background-color: white;padding-left: 7%;">
 {% for post in data %}
 
 <div name='post_div' id=p-{{post.id}}>
     {% if post.urls %}
-    <a href='{{post.urls}}'><h2>{{post.title}}</h2></a>
+
+    <a href='{{post.urls}}'><h3>{{post.title}}</h3></a>
     <a href='{{post.urls}}'>{{post.urls}}</a>
     {% else %}
-    <a href='/r/{{post.community.name}}/post/{{post.id}}'><h2>{{post.title}}</h2></a>
+    <b>title:</b><a href='/r/{{post.community.name}}/post/{{post.id}}'><h3>{{post.title}}</h3></a>
     <p>{{post.text}}</p>
     {% endif %}
     <p>posted at <a href="/r/{{post.community.name}}">r/{{post.community.name}}</a></p>
-    <b>{{post.date}}</b>
+    <p>{{post.date}}</p>
     <p>likes: {{post.post_likes.count}}</p>
 
     <a href='/r/{{post.community.name}}/post/{{post.id}}'>comments {{post.get_comment_count}}</a>
 </div>
-
 {% endfor %}
+</div>
+<br>
+<br>
+<br>
+<br>
+{% endblock %}

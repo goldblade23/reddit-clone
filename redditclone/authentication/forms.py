@@ -15,4 +15,3 @@ class SignupForm(forms.Form):
     bio = forms.CharField(widget=forms.Textarea)
     birthdate =  forms.DateField(widget=forms.SelectDateWidget(years=YEARS))
     
-
