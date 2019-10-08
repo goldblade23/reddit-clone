@@ -49,23 +49,7 @@ def post_view(request, commun, id, *args, **kwargs):
             return HttpResponseRedirect('/r/{}/post/{}#c-{}'.format(commun, id, comment.id))
     form = CommentForm()
 
-    # if request.method == "POST":
-    #     replyform = ReplyForm(request.POST)
-    #     if replyform.is_valid():
-    #         data = replyform.cleaned_data
-    #         Comment.objects.create(
-    #             post=post,
-    #             commenter=current_user,
-    #             text=data['text'],
-    #             # parent= Comments.objects.get(id=parent_id)
-    #             parent= Comment.objects.get(id=1)
-    #         )
-    #         comment = Comment.objects.get(id=Comment.objects.all().count())
-    #         return HttpResponseRedirect('/r/{}/post/{}#c-{}'.format(commun, id, comment.id))
-    # replyform = ReplyForm()
-
-
-    return render(request, html, {'post': post, 'form': form, 'comments': comments})
+    return render(request, html, {'post': post, 'form': form, 'comments': comments, 'reddituser':current_user})
 
 def add_textpost(request, commun, *args, **kwargs):
     html = 'addtextpost.html'
@@ -110,3 +94,65 @@ def post_community_view(request,  commun, *args, **kwargs):
     posts = Post.objects.filter(community=community)
 
     return render(request, html, {'data': posts, "community": community})
+
+# def delete_post(request, id, *args, **kwargs):
+
+def post_like(request, id, *args, **kwargs):
+    reddit_user = RedditUser.objects.get(user=request.user)
+    
+    try:
+        post = Post.objects.get(id=id)
+        
+    except Post.DoesNotExist:
+        return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+        # return HttpResponseRedirect(reverse('homepage'))
+
+    post.post_likes.add(reddit_user)
+    if reddit_user in post.post_dislikes.all():
+        post.post_dislikes.remove(reddit_user)
+        
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
+def post_dislike(request, id, *args, **kwargs):
+    reddit_user = RedditUser.objects.get(user=request.user)
+    
+    try:
+        post = Post.objects.get(id=id)
+        
+    except Post.DoesNotExist:
+        return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+        # return HttpResponseRedirect(reverse('homepage'))
+
+    post.post_dislikes.add(reddit_user)
+    if reddit_user in post.post_likes.all():
+        post.post_likes.remove(reddit_user)
+        
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
+def post_undislike(request, id, *args, **kwargs):
+    reddit_user = RedditUser.objects.get(user=request.user)
+    
+    try:
+        post = Post.objects.get(id=id)
+        
+    except Post.DoesNotExist:
+        return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+        # return HttpResponseRedirect(reverse('homepage'))
+
+    post.post_dislikes.remove(reddit_user)
+ 
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
+def post_unlike(request, id, *args, **kwargs):
+    reddit_user = RedditUser.objects.get(user=request.user)
+    
+    try:
+        post = Post.objects.get(id=id)
+        
+    except Post.DoesNotExist:
+        return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+        # return HttpResponseRedirect(reverse('homepage'))
+
+    post.post_likes.remove(reddit_user)
+ 
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))

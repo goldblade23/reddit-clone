@@ -18,3 +18,6 @@ class Comment(MPTTModel):
 
     def __str__(self):
         return f"{self.text} - {self.commenter.displayname}"
+
+    def comment_likes_count(self):
+        return self.comment_likes.all().count() - self.comment_dislikes.all().count()

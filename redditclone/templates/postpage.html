@@ -25,9 +25,22 @@ or
     <h2>{{post.title}}</h2>
     <p>posted at <a href="/r/{{post.community.name}}">r/{{post.community.name}}</a></p>
     <p>{{post.text}}</p>
-    <b>{{post.date}}</b>
-    <p>likes: {{post.post_likes.count}}</p>
-    <a href='/r/{{post.community.name}}/post/{{post.id}}'>comments {{post.get_comment_count}}</a>
+    <a href='{{post.urls}}'>{{post.urls}}</a>
+    <p>{{post.date}}</p>
+    <p>likes: {{post.post_likes_count}}</p>
+    <p><a href='/r/{{post.community.name}}/post/{{post.id}}'>comments {{post.get_comment_count}}</a></p>
+    
+    {% if reddituser in post.post_likes.all %}
+        <a href='postvote/unlike/{{post.id}}'>unlike</a>
+        <a href='postvote/dislike/{{post.id}}'>dislike</a>
+    {% elif reddituser in post.post_dislikes.all %}
+        <a href='postvote/like/{{post.id}}'>like</a>
+        <a href='postvote/undislike/{{post.id}}'>undislike</a>
+    {% else %}
+        <a href='postvote/like/{{post.id}}'>like</a>
+        <a href='postvote/dislike/{{post.id}}'>dislike</a>
+    {% endif %}
+
 
     <hr>
     <form action="" method="post">
@@ -46,7 +59,17 @@ or
             <p>{{ node.commenter.displayname }}</p>
             <b>{{ node.text }}</b>
             <p>{{ node.date }}</p>
-            <p>{{ node.comment_likes.count }}</p>
+            <p>{{ node.comment_likes_count }}</p>
+            {% if reddituser in node.comment_likes.all %}
+                <a href='commentvote/unlike/{{node.id}}'>unlike</a>
+                <a href='commentvote/dislike/{{node.id}}'>dislike</a>
+            {% elif reddituser in node.comment_dislikes.all %}
+                <a href='commentvote/like/{{node.id}}'>like</a>
+                <a href='commentvote/undislike/{{node.id}}'>undislike</a>
+            {% else %}
+                <a href='commentvote/like/{{node.id}}'>like</a>
+                <a href='commentvote/dislike/{{node.id}}'>dislike</a>
+            {% endif %}
 
 
             <form action="" method="post">
