@@ -4,6 +4,8 @@ from django.contrib.auth.models import User
 
 from redditclone.communitys.models import Community
 from redditclone.redditUsers.models import RedditUser
+# from redditclone.comments.models import Comment
+
 
 
 class Post(models.Model):
@@ -19,4 +21,6 @@ class Post(models.Model):
     def __str__(self):
         return f"{self.title} - {self.author.displayname}"
 
-
+    def get_comment_count(self):
+        from redditclone.comments.models import Comment
+        return Comment.objects.filter(post=self).count()

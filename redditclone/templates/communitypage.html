@@ -49,8 +49,10 @@ or
     <p>posted at <a href="/r/{{post.community.name}}">r/{{post.community.name}}</a></p>
     <p>{{post.date}}</p>
     <p>likes: {{post.post_likes.count}}</p>
-{% endfor %}
+
+    <a href='/r/{{post.community.name}}/post/{{post.id}}'>comments {{post.get_comment_count}}</a>
 </div>
+{% endfor %}
 </div>
 <br>
 <br>
