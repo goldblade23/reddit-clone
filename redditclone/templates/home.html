@@ -3,8 +3,10 @@
 
   
   {% block content %}
+
 <div>
-           <div class="container" style="background-color: #ECE8E8">
+           <div class="container" style="background-color: #ECE8E8; padding-top: 25px;">
+            <div style="background-color: white; padding-top: 15px;">
    <br>
    <h3 style="margin-left: -700px;"> Hello, {{reddituser.displayname}}!</h3>
    <br>
@@ -16,19 +18,23 @@
       <a style="margin-left: -700px;"class="btn btn-success" href="/login/" role="button"> Log in!</a>
    <br>
    <br>
-   </div>
   </div>
-   <br>
+  </div>
    <br>
        <a href='/r/{{post.community.name}}/post/{{post.id}}'>
    <h2>{{post.title}}</h2>
    </a>
-       
+       <div style="background-color: white; padding-top: 15px;">
    <p style="margin-left: -700px;">Posted at <a href="/r/{{post.community.name}}">r/{{post.community.name}}</a></p>
        
    <p style="margin-left: -700px;">{{post.text}}</p>
        <b>{{post.date}}</b>
        
    <p style="margin-left: -700px;">likes: {{post.post_likes.count}}</p>
+   <br>
+   <br>
+  </div>
+  <br>
+  <br>
   </div>
   {% endblock %}
