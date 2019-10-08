@@ -24,3 +24,6 @@ class Post(models.Model):
     def get_comment_count(self):
         from redditclone.comments.models import Comment
         return Comment.objects.filter(post=self).count()
+
+    def post_likes_count(self):
+        return self.post_likes.all().count() - self.post_dislikes.all().count()
