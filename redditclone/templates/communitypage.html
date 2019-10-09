@@ -37,6 +37,13 @@ or
 <div class="container" style="background-color: white;padding-left: 7%;">
 {% for post in data %}
 
+{% if currentuser in community.moderators.all %}
+<a href='/r/{{community.name}}/post/delete/{{post.id}}'><button style='background-color:red'>delete</button></a>
+{% elif currentuser == post.author %}
+<a href='/r/{{community.name}}/post/delete/{{post.id}}'><button style='background-color:red'>delete</button></a>
+{% endif %}
+
+
 <div name='post_div' id=p-{{post.id}}>
     {% if post.urls %}
 

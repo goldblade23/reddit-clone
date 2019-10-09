@@ -8,6 +8,10 @@
 {% endif %}
 
 <hr>
+javascript test
+<p id="demo"></p>
+
+<hr>
 
 {% if request.user.is_authenticated %}
 <a href="/createcommunity/">create new community</a>
@@ -31,56 +35,76 @@ or
     <p><a href='/r/{{post.community.name}}/post/{{post.id}}'>comments {{post.get_comment_count}}</a></p>
     
     {% if reddituser in post.post_likes.all %}
-        <a href='postvote/unlike/{{post.id}}'>unlike</a>
-        <a href='postvote/dislike/{{post.id}}'>dislike</a>
+        <a href='postvote/unlike/{{post.id}}'><button style="background-color: green">like</button></a>
+        <a href='postvote/dislike/{{post.id}}'><button>dislike</button></a>
     {% elif reddituser in post.post_dislikes.all %}
-        <a href='postvote/like/{{post.id}}'>like</a>
-        <a href='postvote/undislike/{{post.id}}'>undislike</a>
+        <a href='postvote/like/{{post.id}}'><button>like</button></a>
+        <a href='postvote/undislike/{{post.id}}'><button style="background-color: green">dislike</button></a>
     {% else %}
-        <a href='postvote/like/{{post.id}}'>like</a>
-        <a href='postvote/dislike/{{post.id}}'>dislike</a>
+        <a href='postvote/like/{{post.id}}'><button>like</button></a>
+        <a href='postvote/dislike/{{post.id}}'><button>dislike</button></a>
     {% endif %}
 
-
+     
     <hr>
+
+    <button onclick="myFunction2()">Reply</button>
+    <div id="mydiv" style="display: none;">
     <form action="" method="post">
         {% csrf_token %}
         {{ form }}
         <input type="submit" value="Submit">
     </form>
+</div>
     
     <hr>
 
     {% load mptt_tags %}
 <ul>
     {% recursetree comments %}
+    {% if node.comment_removed == True %}
+    [COMMENT DELETED]
+    {% else %}
+        {% if reddituser in community.moderators.all %}
+        <a href='/r/{{community.name}}/comment/delete/{{node.id}}'><button style='background-color:red'>delete</button></a>
+        {% elif reddituser == node.commenter %}
+        <a href='/r/{{community.name}}/comment/delete/{{node.id}}'><button style='background-color:red'>delete</button></a>
+        {% endif %}
+    
         <div id=c-{{node.id}}>
         <li>
             <p>{{ node.commenter.displayname }}</p>
             <b>{{ node.text }}</b>
             <p>{{ node.date }}</p>
             <p>{{ node.comment_likes_count }}</p>
+
+            {% comment %}
+            <button id='like-{{node.id}}' onclick="upvote(event)">likes</button>
+            <button id='like-{{node.id}}' onclick="downvote(event)">dislikes</button>
+            {% endcomment %}
+
             {% if reddituser in node.comment_likes.all %}
-                <a href='commentvote/unlike/{{node.id}}'>unlike</a>
-                <a href='commentvote/dislike/{{node.id}}'>dislike</a>
+                <a href='commentvote/unlike/{{node.id}}'><button style="background-color: green">like</button></a>
+                <a href='commentvote/dislike/{{node.id}}'><button>dislike</button></a>
             {% elif reddituser in node.comment_dislikes.all %}
-                <a href='commentvote/like/{{node.id}}'>like</a>
-                <a href='commentvote/undislike/{{node.id}}'>undislike</a>
+                <a href='commentvote/like/{{node.id}}'><button>like</button></a>
+                <a href='commentvote/undislike/{{node.id}}'><button style="background-color: green">dislike</button></a>
             {% else %}
-                <a href='commentvote/like/{{node.id}}'>like</a>
-                <a href='commentvote/dislike/{{node.id}}'>dislike</a>
+                <a href='commentvote/like/{{node.id}}'><button>like</button></a>
+                <a href='commentvote/dislike/{{node.id}}'><button>dislike</button></a>
             {% endif %}
 
-
+            <button onclick="myFunction(event)">Reply</button>
+            <div id="myDIV-{{node.id}}" style="display: none;">
             <form action="" method="post">
                 {% csrf_token %}
                 {{ form }}
                 <input type="hidden" name="comment_id" value="{{ node.id }}">
                 <input type="submit" value="Submit">
             </form>
+            </div>
 
-
-
+            {% endif %}
             {% if not node.is_leaf_node %}
                 <ul class="children">
                     {{ children }}
@@ -90,3 +114,38 @@ or
     </div>
     {% endrecursetree %}
 </ul>
+
+<script>
+
+function myFunction(event) {
+    var a = event.target.nextSibling.nextSibling.id
+  var x = document.getElementById(a);
+  if (x.style.display === "none") {
+    x.style.display = "block";
+  } else {
+    x.style.display = "none";
+  }
+
+
+}
+
+function myFunction2() {
+  var x = document.getElementById("mydiv");
+  if (x.style.display === "none") {
+    x.style.display = "block";
+  } else {
+    x.style.display = "none";
+  }
+
+
+}
+
+// function upvote(event){
+//     var a = event.target.id
+//     var b = a.split('-')
+//     var c = b[b.length-1]
+//     fetch("/api/post/" + num.toString(c) + "/upvote" )
+// }
+
+
+</script>
