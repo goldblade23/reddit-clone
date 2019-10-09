@@ -92,11 +92,10 @@ def post_community_view(request,  commun, *args, **kwargs):
     html = "communitypage.html"
     current_user = RedditUser.objects.get(user=request.user)
     community = Community.objects.get(name=commun)
-    posts = Post.objects.filter(community=community).filter(post_removed=False)
+    posts = Post.objects.filter(community=community).filter(post_removed=False).order_by('-date')
 
     return render(request, html, {'data': posts, "community": community, "currentuser":current_user})
 
-# def delete_post(request, id, *args, **kwargs):
 
 def post_like(request, id, *args, **kwargs):
     reddit_user = RedditUser.objects.get(user=request.user)
