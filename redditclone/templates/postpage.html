@@ -31,10 +31,34 @@ or
     <p>{{post.text}}</p>
     <a href='{{post.urls}}'>{{post.urls}}</a>
     <p>{{post.date}}</p>
-    <p>likes: {{post.post_likes_count}}</p>
+    
     <p><a href='/r/{{post.community.name}}/post/{{post.id}}'>comments {{post.get_comment_count}}</a></p>
     
+
+    <p>likes: <span class='likeCount'>{{post.post_likes_count}}</span></p>
+
     {% if reddituser in post.post_likes.all %}
+    <button id='p-like-{{post.id}}' onclick="postupvote(event)" style='background-color: green'>likes</button>
+    <button id='p-dislike-{{post.id}}' onclick="postdownvote(event)">dislikes</button>
+
+    {% elif reddituser in post.post_dislikes.all %}
+    <button id='p-like-{{post.id}}' onclick="postupvote(event)">likes</button>
+    <button id='p-dislike-{{post.id}}' onclick="postdownvote(event)" style='background-color: green'>dislikes</button>
+
+    {% else %}
+    <button id='p-like-{{post.id}}' onclick="postupvote(event)">likes</button>
+    <button id='p-dislike-{{post.id}}' onclick="postdownvote(event)">dislikes</button>
+    {% endif %}
+
+
+
+
+
+
+
+
+    {% comment %}
+    <!-- {% if reddituser in post.post_likes.all %}
         <a href='postvote/unlike/{{post.id}}'><button style="background-color: green">like</button></a>
         <a href='postvote/dislike/{{post.id}}'><button>dislike</button></a>
     {% elif reddituser in post.post_dislikes.all %}
@@ -43,7 +67,8 @@ or
     {% else %}
         <a href='postvote/like/{{post.id}}'><button>like</button></a>
         <a href='postvote/dislike/{{post.id}}'><button>dislike</button></a>
-    {% endif %}
+    {% endif %} -->
+    {% endcomment %}
 
      
     <hr>
@@ -65,25 +90,51 @@ or
     {% if node.comment_removed == True %}
     [COMMENT DELETED]
     {% else %}
-        {% if reddituser in community.moderators.all %}
+        
+        
+    
+    
+        {% comment %}
+        <!-- {% if reddituser in community.moderators.all %}
         <a href='/r/{{community.name}}/comment/delete/{{node.id}}'><button style='background-color:red'>delete</button></a>
         {% elif reddituser == node.commenter %}
         <a href='/r/{{community.name}}/comment/delete/{{node.id}}'><button style='background-color:red'>delete</button></a>
-        {% endif %}
-    
+        {% endif %} -->
+        {% endcomment %}
+        {% if reddituser in community.moderators.all %}
+            <button id='c-d-{{node.id}}'onclick="commentdelete(event)" style="background-color: red">Delete</button>
+        {% elif reddituser == node.commenter %}
+            <button id='c-d-{{node.id}}'onclick="commentdelete(event)" style="background-color: red">Delete</button>
+        {% endif %} 
         <div id=c-{{node.id}}>
+        <div id=c-info-{{node.id}}>
         <li>
             <p>{{ node.commenter.displayname }}</p>
             <b>{{ node.text }}</b>
             <p>{{ node.date }}</p>
-            <p>{{ node.comment_likes_count }}</p>
 
             {% comment %}
-            <button id='like-{{node.id}}' onclick="upvote(event)">likes</button>
-            <button id='like-{{node.id}}' onclick="downvote(event)">dislikes</button>
+            <!-- <button id='like-{{node.id}}' onclick="upvote(event)">likes</button>
+            <button id='like-{{node.id}}' onclick="downvote(event)">dislikes</button> -->
             {% endcomment %}
+            
+            <p><span class='c-likeCount'>{{ node.comment_likes_count }}</span></p>
 
             {% if reddituser in node.comment_likes.all %}
+            <button id='c-like-{{node.id}}' onclick="commentupvote(event)" style='background-color: green'>likes</button>
+            <button id='c-dislike-{{node.id}}' onclick="commentdownvote(event)">dislikes</button>
+
+            {% elif reddituser in node.comment_dislikes.all %}
+            <button id='c-like-{{node.id}}' onclick="commentupvote(event)">likes</button>
+            <button id='c-dislike-{{node.id}}' onclick="commentdownvote(event)" style='background-color: green'>dislikes</button>
+
+            {% else %}
+            <button id='c-like-{{node.id}}' onclick="commentupvote(event)">likes</button>
+            <button id='c-dislike-{{node.id}}' onclick="commentdownvote(event)">dislikes</button>
+            {% endif %}
+
+            {% comment %}
+            <!-- {% if reddituser in node.comment_likes.all %}
                 <a href='commentvote/unlike/{{node.id}}'><button style="background-color: green">like</button></a>
                 <a href='commentvote/dislike/{{node.id}}'><button>dislike</button></a>
             {% elif reddituser in node.comment_dislikes.all %}
@@ -92,7 +143,8 @@ or
             {% else %}
                 <a href='commentvote/like/{{node.id}}'><button>like</button></a>
                 <a href='commentvote/dislike/{{node.id}}'><button>dislike</button></a>
-            {% endif %}
+            {% endif %} -->
+            {% endcomment %}
 
             <button onclick="myFunction(event)">Reply</button>
             <div id="myDIV-{{node.id}}" style="display: none;">
@@ -103,7 +155,7 @@ or
                 <input type="submit" value="Submit">
             </form>
             </div>
-
+            </div>
             {% endif %}
             {% if not node.is_leaf_node %}
                 <ul class="children">
@@ -140,11 +192,144 @@ function myFunction2() {
 
 }
 
-// function upvote(event){
+function postupvote(event){
+    var voteCount = parseInt(event.target.previousElementSibling.firstElementChild.textContent)
+    var button = document.getElementById(event.target.id)
+    var secondbutton = document.getElementById(event.target.nextElementSibling.id)
+    var dislikebutton = event.target.nextElementSibling.style[0]
+
+    var a = event.target.id
+    var b = a.split('-')
+    var c = b[b.length-1]
+
+    if(dislikebutton == null && event.target.style[0] == null){
+        voteCount += 1
+        button.style.backgroundColor = 'green'
+        fetch("/api/post/" + c + "/upvote" )
+    }else if(dislikebutton !== null && event.target.style[0] == null){
+        voteCount += 2
+        button.style.backgroundColor = 'green'
+        secondbutton.style.backgroundColor = null
+        fetch("/api/post/" + c + "/upvote" )
+    }else if(dislikebutton == null && event.target.style[0] !== null){
+        voteCount -= 1
+        button.style.backgroundColor = null
+        fetch("/api/post/" + c + "/unupvote" )
+    }
+    event.target.previousElementSibling.firstElementChild.textContent = voteCount
+    // event.target.nextElementSibling.style[0]
+    // --------------------------
+
+}
+
+function postdownvote(event){
+    var voteCount = parseInt(event.target.previousElementSibling.previousElementSibling.firstElementChild.textContent)
+    var button = document.getElementById(event.target.id)
+    var secondbutton = document.getElementById(event.target.previousElementSibling.id)
+    var likebutton = event.target.previousElementSibling.style[0]
+    
+    var a = event.target.id
+    var b = a.split('-')
+    var c = b[b.length-1]
+    
+    if(likebutton == null && event.target.style[0] == null){
+        voteCount -= 1
+        button.style.backgroundColor = 'green'
+        fetch("/api/post/" + c + "/downvote" )
+    }else if(likebutton !== null && event.target.style[0] == null){
+        voteCount -= 2
+        button.style.backgroundColor = 'green'
+        secondbutton.style.backgroundColor = null
+        fetch("/api/post/" + c + "/downvote" )
+    }else if(likebutton == null && event.target.style[0] !== null){
+        voteCount += 1
+        button.style.backgroundColor = null
+        fetch("/api/post/" + c + "/undownvote" )
+    }
+    event.target.previousElementSibling.previousElementSibling.firstElementChild.textContent = voteCount
+
+}
+
+function commentupvote(event){
+    var voteCount = parseInt(event.target.previousElementSibling.firstElementChild.textContent)
+    var button = document.getElementById(event.target.id)
+    var secondbutton = document.getElementById(event.target.nextElementSibling.id)
+    var dislikebutton = event.target.nextElementSibling.style[0]
+
+    var a = event.target.id
+    var b = a.split('-')
+    var c = b[b.length-1]
+
+    if(dislikebutton == null && event.target.style[0] == null){
+        voteCount += 1
+        button.style.backgroundColor = 'green'
+        fetch("/api/comment/" + c + "/upvote" )
+    }else if(dislikebutton !== null && event.target.style[0] == null){
+        voteCount += 2
+        button.style.backgroundColor = 'green'
+        secondbutton.style.backgroundColor = null
+        fetch("/api/comment/" + c + "/upvote" )
+    }else if(dislikebutton == null && event.target.style[0] !== null){
+        voteCount -= 1
+        button.style.backgroundColor = null
+        fetch("/api/comment/" + c + "/unupvote" )
+    }
+    event.target.previousElementSibling.firstElementChild.textContent = voteCount
+    // event.target.nextElementSibling.style[0]
+    // --------------------------
+
+}
+
+function commentdownvote(event){
+    var voteCount = parseInt(event.target.previousElementSibling.previousElementSibling.firstElementChild.textContent)
+    var button = document.getElementById(event.target.id)
+    var secondbutton = document.getElementById(event.target.previousElementSibling.id)
+    var likebutton = event.target.previousElementSibling.style[0]
+    
+    var a = event.target.id
+    var b = a.split('-')
+    var c = b[b.length-1]
+    
+    if(likebutton == null && event.target.style[0] == null){
+        voteCount -= 1
+        button.style.backgroundColor = 'green'
+        fetch("/api/comment/" + c + "/downvote" )
+    }else if(likebutton !== null && event.target.style[0] == null){
+        voteCount -= 2
+        button.style.backgroundColor = 'green'
+        secondbutton.style.backgroundColor = null
+        fetch("/api/comment/" + c + "/downvote" )
+    }else if(likebutton == null && event.target.style[0] !== null){
+        voteCount += 1
+        button.style.backgroundColor = null
+        fetch("/api/comment/" + c + "/undownvote" )
+    }
+    event.target.previousElementSibling.previousElementSibling.firstElementChild.textContent = voteCount
+
+}
+
+function commentdelete(event){
+    var a = event.target.id
+    var b = a.split('-')
+    var c = b[b.length-1]
+
+    var x = document.getElementById(event.target.nextElementSibling.firstElementChild.id)
+    x.style.backgroundColor = "red"
+    fetch("/api/comment/" + c + "/delete")
+}
+
+// function postunupvote(event){
 //     var a = event.target.id
 //     var b = a.split('-')
 //     var c = b[b.length-1]
-//     fetch("/api/post/" + num.toString(c) + "/upvote" )
+//     fetch("/api/post/" + c + "/unupvote" )
+// }
+
+// function postundownvote(event){
+//     var a = event.target.id
+//     var b = a.split('-')
+//     var c = b[b.length-1]
+//     fetch("/api/post/" + c + "/undownvote" )
 // }
 
 

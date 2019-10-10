@@ -37,13 +37,19 @@ or
 <div class="container" style="background-color: white;padding-left: 7%;">
 {% for post in data %}
 
-{% if currentuser in community.moderators.all %}
+{% comment %}
+<!-- {% if currentuser in community.moderators.all %}
 <a href='/r/{{community.name}}/post/delete/{{post.id}}'><button style='background-color:red'>delete</button></a>
 {% elif currentuser == post.author %}
 <a href='/r/{{community.name}}/post/delete/{{post.id}}'><button style='background-color:red'>delete</button></a>
-{% endif %}
+{% endif %} -->
+{% endcomment %}
 
-
+{% if reddituser in community.moderators.all %}
+            <button id='p-d-{{post.id}}' onclick="postdelete(event)" style="background-color: red">Delete</button>
+        {% elif reddituser == node.commenter %}
+            <button id='p-d-{{post.id}}' onclick="postdelete(event)" style="background-color: red">Delete</button>
+        {% endif %} 
 <div name='post_div' id=p-{{post.id}}>
     {% if post.urls %}
 
@@ -65,4 +71,25 @@ or
 <br>
 <br>
 <br>
+
+
+<script>
+
+function postdelete(event){
+
+    var a = event.target.id
+    var b = a.split('-')
+    var c = b[b.length-1]
+    console.log("/api/post/" + c + "/delete")
+    var x = document.getElementById(event.target.nextElementSibling.id)
+    console.log(x)
+    x.style.backgroundColor = "red"
+    fetch("/api/post/" + c + "/delete")
+}
+
+
+
+
+</script>
+
 {% endblock %}
