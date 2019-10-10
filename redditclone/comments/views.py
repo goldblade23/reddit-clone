@@ -80,17 +80,12 @@ def comments_unlike(request, commun, id, *args, **kwargs):
  
     return HttpResponseRedirect('/r/{}/post/{}#c-{}'.format(commun, comment.post.id, comment.id))
 
-# def comments_comments(request, commun, *args, **kwargs):
-#     html = 'addtextpost.html'
-
-#     if request.method == "POST":
-#         form = CommentForm(request.POST)
-#         if form.is_valid():
-#             data = form.cleaned_data
-#             Comment.objects.create(
-#                 text=data['text'],
-#             )
-#             return HttpResponseRedirect('/r/{}'.format(commun))
-#     form = CommentForm()
-
-#     return render(request,html,{'form': form})
+def comment_delete(request, commun, id, *args, **kwargs):
+    try:
+        comment = Comment.objects.get(id=id)
+    except Comment.DoesNotExist:
+         return HttpResponseRedirect('/r/{}/post/{}#c-{}'.format(commun, comment.post.id, comment.id))
+    
+    comment.comment_removed = True
+    comment.save()
+    return HttpResponseRedirect('/r/{}/post/{}#c-{}'.format(commun, comment.post.id, comment.id))

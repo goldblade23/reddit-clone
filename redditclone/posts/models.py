@@ -15,6 +15,7 @@ class Post(models.Model):
     text = models.TextField(max_length=200)
     author = models.ForeignKey(RedditUser, on_delete=models.CASCADE)
     date = models.DateTimeField(auto_now_add=True,blank=True)
+    post_removed = models.BooleanField(default=False)
     post_likes = models.ManyToManyField(RedditUser, related_name="post_likes")
     post_dislikes = models.ManyToManyField(RedditUser, related_name="post_dislikes")
     

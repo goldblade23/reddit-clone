@@ -13,6 +13,7 @@ class Comment(MPTTModel):
     text = models.TextField(max_length=200)
     parent = TreeForeignKey('self', on_delete=models.CASCADE, blank=True, null=True)
     date = models.DateTimeField(auto_now_add=True,blank=True)
+    comment_removed = models.BooleanField(default=False)
     comment_likes = models.ManyToManyField(RedditUser, related_name="comment_likes")
     comment_dislikes = models.ManyToManyField(RedditUser, related_name="comment_dislikes")
 
@@ -21,3 +22,6 @@ class Comment(MPTTModel):
 
     def comment_likes_count(self):
         return self.comment_likes.all().count() - self.comment_dislikes.all().count()
+
+    class MPTTMeta:
+        order_insertion_by = ['-date']

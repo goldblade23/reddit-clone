@@ -27,6 +27,7 @@ from redditclone.authentication.urls import urlpatterns as auth_urls
 from redditclone.communitys.urls import urlpatterns as communitys_urls
 from redditclone.posts.urls import urlpatterns as posts_urls
 from redditclone.comments.urls import urlpatterns as comments_urls
+from redditclone.api.urls import urlpatterns as api_urls
 # from redditclone.notifications.urls import urlpatterns as notification_urls
 
 admin.site.register(RedditUser)
@@ -44,4 +45,5 @@ urlpatterns += auth_urls
 urlpatterns += communitys_urls
 urlpatterns += posts_urls
 urlpatterns += comments_urls
+urlpatterns += api_urls
 # urlpatterns += notification_urls

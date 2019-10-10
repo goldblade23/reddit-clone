@@ -19,6 +19,7 @@ from redditclone.comments.models import Comment
 def post_view(request, commun, id, *args, **kwargs):
     html = "postpage.html"
 
+    current_community = Community.objects.get(name=commun)
     post = Post.objects.get(id=id)
     current_user = RedditUser.objects.get(user=request.user)
     comments = Comment.objects.filter(post=post)
@@ -49,7 +50,7 @@ def post_view(request, commun, id, *args, **kwargs):
             return HttpResponseRedirect('/r/{}/post/{}#c-{}'.format(commun, id, comment.id))
     form = CommentForm()
 
-    return render(request, html, {'post': post, 'form': form, 'comments': comments, 'reddituser':current_user})
+    return render(request, html, {'post': post, 'form': form, 'comments': comments, 'reddituser':current_user, 'community':current_community})
 
 def add_textpost(request, commun, *args, **kwargs):
     html = 'addtextpost.html'
@@ -89,13 +90,12 @@ def add_linkpost(request, commun, *args, **kwargs):
 
 def post_community_view(request,  commun, *args, **kwargs):
     html = "communitypage.html"
-
+    current_user = RedditUser.objects.get(user=request.user)
     community = Community.objects.get(name=commun)
-    posts = Post.objects.filter(community=community)
+    posts = Post.objects.filter(community=community).filter(post_removed=False).order_by('-date')
 
-    return render(request, html, {'data': posts, "community": community})
+    return render(request, html, {'data': posts, "community": community, "currentuser":current_user})
 
-# def delete_post(request, id, *args, **kwargs):
 
 def post_like(request, id, *args, **kwargs):
     reddit_user = RedditUser.objects.get(user=request.user)
@@ -155,4 +155,14 @@ def post_unlike(request, id, *args, **kwargs):
 
     post.post_likes.remove(reddit_user)
  
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
+def post_delete(request, commun, id, *args, **kwargs):
+    try:
+        post = Post.objects.get(id=id)
+    except Post.DoesNotExist:
+        return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+    
+    post.post_removed = True
+    post.save()
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
