@@ -13,5 +13,4 @@ class SignupForm(forms.Form):
     password = forms.CharField(widget=forms.PasswordInput)
     displayname = forms.CharField(max_length=30)
     bio = forms.CharField(widget=forms.Textarea)
-    birthdate =  forms.DateField(widget=forms.SelectDateWidget(years=YEARS))
-    
+    birthdate = forms.DateField(widget=forms.SelectDateWidget(years=YEARS))
