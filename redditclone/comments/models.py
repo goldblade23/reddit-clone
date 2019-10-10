@@ -22,3 +22,6 @@ class Comment(MPTTModel):
 
     def comment_likes_count(self):
         return self.comment_likes.all().count() - self.comment_dislikes.all().count()
+
+    class MPTTMeta:
+        order_insertion_by = ['-date']
