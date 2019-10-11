@@ -1,6 +1,6 @@
 from django.urls import path
-from redditclone.redditUsers.views import update_bio
+from redditclone.redditUsers.views import bio
 
 urlpatterns = [
-    path('bio/', update_bio)
+    path('bio/', bio)
 ]

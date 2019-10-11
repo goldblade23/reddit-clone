@@ -1,5 +1,23 @@
+{% extends 'base.html' %}
+{%  load static %}
+{%  block content %}
+<br>
+<br>
+<br>
+<div class="container rounded" style="background-color: #ECE8E8; max-width: 50%;">
+    <br>
+    <h4>Add your link:</h4>
+    <hr>
 <form action="" method="post">
+    <br>
     {% csrf_token %}
     {{ form }}
-    <input type="submit" value="Submit">
+    <br>
+    <br>
+    <button class="btn btn-success my-2 my-sm-0" type="submit">Submit</button>
+    
 </form>
+<br>
+</div>
+
+{%  endblock %}
