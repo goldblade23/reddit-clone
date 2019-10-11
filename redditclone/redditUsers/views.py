@@ -3,20 +3,13 @@ from django.shortcuts import render, HttpResponseRedirect, reverse
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login
+from redditclone.redditUsers.forms import UpdateUser
+from django.contrib.auth.decorators import login_required
 
 
-def update_bio(request):
+@login_required()
+def bio(request):
     html = 'bio.html'
-    if request.method == "POST":
-        form = SignupForm(request.POST)
-        if form.is_valid():
-            data = form.cleaned_data
-            u = authenticate(username=data["username"], password=data["password"])
-            if u is not None:
-                login(request, u)
-            else:
-                return HttpResponseRedirect(reverse('login'))
-            return HttpResponseRedirect(reverse('homepage'))
-    form = SignupForm()
+    #logged_in_user = RedditUser.objects.get(user=request.user)
 
-    return render(request, html, {"form": form})
+    return render(request, html)

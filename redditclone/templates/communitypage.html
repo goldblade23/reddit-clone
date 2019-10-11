@@ -4,20 +4,12 @@
 
 {% block content %}
 
-<a href="/">home</a>
-{% if request.user.is_authenticated %}
-<a href="/logout/">logout</a>
-<h3>Hello, {{request.user.username}}!</h3>
-{% else %}
-<a href="/login/">Login</a>
-<a href="/signup/">Signup</a>
-{% endif %}
-
 {% if request.user.is_authenticated %}
 <br>
 
+<div class="col-8 col-sm-4 rounded" style="background-color: #ECE8E8; margin-bottom: 3%; margin-left: 33%">
 <h4>Create a new post:</h4>
-
+<hr>
 <a class="btn btn-primary" href="/r/{{community.name}}/addtextpost" role="button">Text</a>
 or
 <a class="btn btn-primary" href="/r/{{community.name}}/addlinkpost" role="button">Link</a>
@@ -29,10 +21,10 @@ or
 <a class="btn btn-success" href="/createcommunity/" role="button">Create new community</a>
 <br>
 <br>
-
+</div>
 <div class="container" style=" background-color: #ECE8E8; text-align: left; align-content: center; padding-bottom: 10px; padding-top: 15px;" >
     <div style="background-color: white; text-align: left; padding-bottom: 5px; padding-top: 15px;">
-    <h2>r/{{community.name}}</h2>
+    <h2 style="margin-left: 3%">r/{{community.name}}</h2>
 </div>
 <div class="container" style="background-color: white;padding-left: 7%;">
 {% for post in data %}

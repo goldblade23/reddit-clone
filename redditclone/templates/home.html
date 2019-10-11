@@ -21,7 +21,9 @@
    </div>
    <div class="col-8 col-sm-4 rounded" style="background-color: white; margin-left: 25px; padding-bottom: 3%;">
        <br>
-      <h3> Hello, Missi{{reddituser.displayname}}!</h3>
+       {% if request.user.is_authenticated %}
+      <h3> Hello, {{reddituser.displayname}}!</h3>
+      {% endif %}
       {Bio will appear here when logged in}
    </div>
    <div class="col-8 col-sm-4 rounded" style="background-color: white; margin-left: 880px; margin-bottom: 1%; margin-top: 2%; align-content:center;"> 
@@ -37,8 +39,20 @@
    <div class="col-8 col-sm-4 rounded" style="background-color: white; margin-left: 880px; margin-bottom: 2%; margin-top: 1%">
     <br>
       <h4>Today's trending communities:</h4>
+      <hr>
       <br>
       <p>r/{{post.community.name}}</p>
+   </div>
+   <div class="col-8 col-sm-4 rounded" style="background-color: white; margin-left: 880px; margin-bottom: 2%;">
+      <br>
+   <h5>ReadIt Rules:</h5>
+   <hr>
+   
+   <p>♦ Remember the human.</p>
+   <p>♦ Post to the most appropriate community possible.</p>
+   <p>♦ Read the rules of a community before making a submission.</p>
+   <br>
+   
    </div>
 </div>
 </div>
