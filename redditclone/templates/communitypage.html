@@ -37,11 +37,12 @@ or
 {% endif %} -->
 {% endcomment %}
 
-{% if reddituser in community.moderators.all %}
+{% if currentuser in community.moderators.all %}
             <button id='p-d-{{post.id}}' onclick="postdelete(event)" style="background-color: red">Delete</button>
-        {% elif reddituser == node.commenter %}
+        {% elif currentuser == node.commenter %}
             <button id='p-d-{{post.id}}' onclick="postdelete(event)" style="background-color: red">Delete</button>
         {% endif %} 
+
 <div name='post_div' id=p-{{post.id}}>
     {% if post.urls %}
 

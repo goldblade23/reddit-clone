@@ -21,7 +21,10 @@ def post_view(request, commun, id, *args, **kwargs):
 
     current_community = Community.objects.get(name=commun)
     post = Post.objects.get(id=id)
-    current_user = RedditUser.objects.get(user=request.user)
+    try:
+        current_user = RedditUser.objects.get(user=request.user)
+    except:
+        current_user = False
     comments = Comment.objects.filter(post=post)
 
     if request.method == "POST":
@@ -90,7 +93,10 @@ def add_linkpost(request, commun, *args, **kwargs):
 
 def post_community_view(request,  commun, *args, **kwargs):
     html = "communitypage.html"
-    current_user = RedditUser.objects.get(user=request.user)
+    try:
+        current_user = RedditUser.objects.get(user=request.user)
+    except:
+        current_user = False
     community = Community.objects.get(name=commun)
     posts = Post.objects.filter(community=community).filter(post_removed=False).order_by('-date')
 

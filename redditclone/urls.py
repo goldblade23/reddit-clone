@@ -23,7 +23,7 @@ from redditclone.comments.models import Comment
 from redditclone.notifications.models import Notification
 
 from redditclone.authentication.urls import urlpatterns as auth_urls
-# from redditclone.redditUsers.urls import urlpatterns as redditusers_urls
+from redditclone.redditUsers.urls import urlpatterns as redditusers_urls
 from redditclone.communitys.urls import urlpatterns as communitys_urls
 from redditclone.posts.urls import urlpatterns as posts_urls
 from redditclone.comments.urls import urlpatterns as comments_urls
@@ -41,7 +41,7 @@ urlpatterns = [
 ]
 
 urlpatterns += auth_urls
-# urlpatterns += redditusers_urls
+urlpatterns += redditusers_urls
 urlpatterns += communitys_urls
 urlpatterns += posts_urls
 urlpatterns += comments_urls
