@@ -92,7 +92,7 @@ def add_linkpost(request, commun, *args, **kwargs):
     return render(request,html,{'form': form})
 
 def post_community_view(request,  commun, *args, **kwargs):
-    html = "communitypage.html"
+    html = "communitypage2.html"
     try:
         current_user = RedditUser.objects.get(user=request.user)
     except:

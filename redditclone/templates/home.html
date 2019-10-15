@@ -1,69 +1,105 @@
 {% extends 'base.html' %}
 {%  load static %}
 {%  block content %}
-<div class="container-fluid rounded" style="background-color: #ECE8E8; padding-top: 25px;">
-   <div class="row justify-content-between p-4">
-      <div class="col-7 rounded" style="background-color :white; text-align: start;">
-         <br>
-         <h3>Popular posts:</h3>
-         <hr>
-         <br>
-         
-         <a href='/r/{{post.community.name}}/post/{{post.id}}'></a>
-            <h2>{{post.title}}</h2>
-                  <p>Posted at <a href="/r/{{post.community.name}}">r/{{post.community.name}}</a></p>
-                  <p>{{post.text}}</p>
-                  <b>Date: {{post.date}}</b>
-                  <p>Likes: {{post.post_likes.count}}</p>
-                  <br>
-                  <br>
-      </div>
 
-      <div class="col-4 rounded" style="background-color: white;">
-         <br>
-         {% if request.user.is_authenticated %}
-         <h3> Hello, {{reddituser.displayname}}!</h3>
+<div class="container-fluid" style="background-color: #ECE8E8;">
+      <div class="row">
+         <div class='col-8'>
+            <div class='container'>
+               {% for i in data %}
+                  <div class="row round" style="background-color: white; margin-top: 5px; margin-bottom: 5px" >
+                        <div class="card" style="width: 100%" >
+                              <div class="card-body">
+                                <h4 class="card-title">r/{{post.community.name}}</h4>
+                                <h6 class="card-subtitle mb-2 text-muted">{{post.title}}</h6>
+                                <p class="card-text">
+                                     <a href='/r/{{post.community.name}}/post/{{post.id}}'></a>
+                                                      <p>Posted at <a href="/r/{{post.community.name}}">r/{{post.community.name}}</a></p>
+                                                      <p>{{post.text}}</p>
+                                                      <b>Date: {{post.date}}</b>
+                                                      <p>Likes: {{post.post_likes.count}}</p>
+                                 </p>
+                                <a href="#" class="card-link">Share this post</a>
+                                <a href="#" class="card-link">Comment</a>
+                              </div>
+                            </div>
+                  </div>
+               {% endfor %}
+            </div>
+         </div>
+         <div class='col-4'>
+            <div class='container-fluid'>
+                  <div class="row" style="background-color: white; margin-top: 5px; margin-bottom: 5px" >
+                        <div class="card" >
+                              <img class="card-img-top" style="width:100px; margin-left: 40%; margin-top: 5px;" src="static/images/glasses3.png" >
+                              <div class="card-body">
+                                    {% if request.user.is_authenticated %}
+                                <h3 class="card-title">r/{{reddituser.displayname}}!</h3>
+                                <br>
+                                <h6 class="card-subtitle mb-2 text-muted">{{reddituser.bio}}</h6>
+                                {% endif %}
+                                
+                                <hr>
+                                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                                {% if request.user.is_authenticated %}
+                                <a href="/createcommunity/" class="card-link">Add New Community</a>
+                                {% endif %}
+                                <a href="#" class="card-link">Another link</a>
+                              </div>
+                            </div>
+                  </div>
+            </div>
+            <div class='container-fluid rounded'>
+                  <div class="row" style="background-color: white; margin-top: 5px; margin-bottom: 5px" >
+                        <div class="card" >
+                              <div class="card-header">
+                                     <h3 style="color: #FF4E00;">Top 5 posts:</h3>
+                                  </div>
+                              <div class="card-body">
+                                     <a href='/r/{{post.community.name}}/post/{{post.id}}'></a>
+                     <h4>{{post.title}}</h4>
+                           Posted at <a href="/r/{{post.community.name}}">r/{{post.community.name}}</a>
+                           {{post.text}}
+                           Date: {{post.date}}
+                           Likes: {{post.post_likes.count}}
+                              </div>
+                            </div>
+                  </div>
+            </div>
+            <div class='container-fluid'style="width: 100%">
+               
+                  <div class="row" style="background-color: white; margin-top: 5px; margin-bottom: 5px;" >
+                        <div class="card" style="width: 100%" >
+                                    <div class="card-body" style="text-align: center">
+                                     <h6 style="color: lightgray">ADVERTISEMENT</h6>
+                                    <img class="card-img-top"; style="width:100%;" src="static/images/ad.png" alt="Card image cap">
+                                     </div>
+                              </div>
+                            </div>
+                  </div>
+                  <div class='container-fluid'>
+                        <div class="row" style="background-color: white; margin-top: 5px; margin-bottom: 5px;" >
+                              <div class="card" style="width:100%;" >
+                                          <div class="card-body">
+                                     <h5 class="card-subtitle mb-2 text-muted" style="text-align: center;">ReadIt Rules:</h5>
+                                    <br>
+                                    <div>
+                                    <ul style="word-wrap:normal;">
+                                          <li>Remember the human.</li>
+                                          <li>Post to the most appropriate community possible.</li>
+                                          <li>Read the rules of a community.</li>
+                                    </ul>
+                                    </div>    
+                                    </div>
+                                  </div>
+                        </div>
+         </div>
+         </div>
+            </div>
+      
+   </div>
+   {%  endblock %}
 
-         <br>
-         <p style="text-align: start">{{reddituser.bio}}</p>
-         {% endif %}
-      </div>
-   </div>
-   <div class="row justify-content-end p-4 pt-3">
-      <div class="col-8 col-sm-4 rounded" style="background-color: white; align-content:center;"> 
-         <br> 
-            <a style="margin-top: 10px;" class="btn btn-primary" href="/createcommunity/" role="button">Add new community</a>
-            <br>
-            <br>
-            <p >Want to create a new community?</p>
-            <a class="btn btn-success" href="/login/" role="button"> Log in!</a>
-            <br>
-            <br>
-      </div>
-   </div>
-   <div class="row justify-content-end pt-3 pb-3 mr-3">
-   <div class="col-8 col-sm-4 rounded" style="background-color: white; ">
-    <br>
-      <h4>Today's trending communities:</h4>
-      <hr>
-      <br>
-      <p style="text-align: start">r/{{post.community.name}}</p>
-   </div>
-</div>
-<div class="row justify-content-end mr-3">
-   <div class="col-8 col-sm-4 rounded" style="background-color: white;">
-      <h6 style="color: lightgrey;">ADVERTISEMENT</h6>
-   <img src="{% static 'images/ad.png' %}" alt="logo" style="justify-content: center; margin-bottom: 3px;">
-      <br>
-   <!-- <h5>ReadIt Rules:</h5>
-   <hr>
    
-   <p>♦ Remember the human.</p>
-   <p>♦ Post to the most appropriate community possible.</p>
-   <p>♦ Read the rules of a community before making a submission.</p>
-   <br>
-    -->
-   </div>
-</div>
-</div>
-{%  endblock %}
+   
+            
