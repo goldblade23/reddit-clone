@@ -1,3 +1,7 @@
+{% extends 'base.html' %}
+{%  load static %}
+{%  block content %}
+
 <h1>name</h1>
 {{reddituser.displayname}}
 
@@ -45,3 +49,5 @@
 <hr>
 
 <h1>subsribed community posts</h1>
+
+{%  endblock %}
