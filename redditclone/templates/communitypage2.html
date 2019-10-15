@@ -1,0 +1,104 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+<div class="container-fluid" style="background-color: #ECE8E8;">
+        <div class="row">
+           <div class='col-8'>
+              <div class='container'>
+                 {% for i in data %}
+                    <div class="row round" style="background-color: white; margin-top: 5px; margin-bottom: 5px" >
+                          <div class="card" style="width: 100%" >
+                                <div class="card-body">
+                                  <h4 class="card-title">r/{{post.name}}</h4>
+                                  <p class="card-text">
+                                       <a href='/r/{{post.community.name}}/post/{{post.id}}'></a>
+                                                        <p style="text-align: left">{{post.text}}</p>
+                                                        <p style="text-align: left">Date: {{post.date}}</p>
+                                                        <p>Likes: {{post.post_likes.count}}</p>
+                                   </p>
+                                  <a href="#" class="card-link">Share this post</a>
+                                  <a href="#" class="card-link">Comment</a>
+                                </div>
+                              </div>
+                    </div>
+                 {% endfor %}
+              </div>
+           </div>
+           <div class='col-4'>
+              <div class='container-fluid' style="width: 100%">
+                    <div class="row" style="background-color: white; margin-top: 5px; margin-bottom: 5px" >
+                          <div class="card" style="width: 100%" >
+                                <img class="card-img-top" style="width:100px; margin-left: 40%; margin-top: 5px;" src="{% static "images/glasses4.png" %}" >
+                                                                                                                    
+                                <div class="card-body">
+                                  <h3 class="card-title">r/{{post.community.name}}</h3>
+                                  <br>
+                                  <a class="btn btn-success" href="#" role="button">Subscribe</a>
+                                  <hr>
+                                  {% if request.user.is_authenticated %}
+                                  <p class="card-text"><h4>Create a new post:</h4>
+                                    <br>
+                                    <div style="text-align: center;">
+                                    <a class="btn btn-primary" href="/r/{{community.name}}/addtextpost" role="button">Text</a>
+                                    or
+                                    <a class="btn btn-primary" href="/r/{{community.name}}/addlinkpost" role="button">Link</a></p>
+    
+                                  {% endif %}
+                                </div>
+                                </div>
+                              </div>
+                    </div>
+              </div>
+              <div class='container-fluid'style="width: 100%">
+                 
+                    <div class="row" style="background-color: white; margin-top: 5px; margin-bottom: 5px;" >
+                          <div class="card" style="width: 100%" >
+                                      <div class="card-body" style="text-align: center">
+                                       <h6 style="color: lightgray">ADVERTISEMENT</h6>
+                                      <img class="card-img-top"; style="width:100%;" src="{% static "images/ad2.png" %}" alt="Card image cap">
+                                       </div>
+                                </div>
+                              </div>
+                    </div>
+              <div class='container-fluid rounded'>
+                    <div class="row" style="background-color: white; margin-top: 5px; margin-bottom: 5px" >
+                          <div class="card" style="width: 100%">
+                                <div class="card-header">
+                                       <h3 style="color: #FF4E00; text-align: left;">Moderators:</h3>
+                                    </div>
+                                <div class="card-body">
+                                    Moderators go here
+                                </div>
+                              </div>
+                    </div>
+              </div>
+              
+                    <div class='container-fluid'>
+                          <div class="row" style="background-color: white; margin-top: 5px; margin-bottom: 5px;" >
+                                <div class="card" style="width:100%;" >
+                                            <div class="card-body">
+                                       <h5 class="card-subtitle mb-2 text-muted" style="text-align: center;">ReadIt Rules:</h5>
+                                      <br>
+                                      <div>
+                                      <ul style="word-wrap:normal;">
+                                            <li>Remember the human.</li>
+                                            <li>Post to the most appropriate community possible.</li>
+                                            <li>Read the rules of a community.</li>
+                                      </ul>
+                                      </div>    
+                                      </div>
+                                    </div>
+                          </div>
+           </div>
+           </div>
+              </div>
+        
+     </div>
+
+
+
+
+{% endblock %}
