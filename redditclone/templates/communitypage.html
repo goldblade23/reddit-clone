@@ -49,12 +49,12 @@ or
     <a href='{{post.urls}}'><h3>{{post.title}}</h3></a>
     <a href='{{post.urls}}'>{{post.urls}}</a>
     {% else %}
-    <b>title:</b><a href='/r/{{post.community.name}}/post/{{post.id}}'><h3>{{post.title}}</h3></a>
+    <a href='/r/{{post.community.name}}/post/{{post.id}}'><h3>{{post.title}}</h3></a>
     <p>{{post.text}}</p>
     {% endif %}
-    <p>posted at <a href="/r/{{post.community.name}}">r/{{post.community.name}}</a></p>
+    <a href="/r/{{post.community.name}}">r/{{post.community.name}}</a>
     <p>{{post.date}}</p>
-    <p>likes: {{post.post_likes.count}}</p>
+    <p>{{post.post_likes.count}}</p>
 
     <a href='/r/{{post.community.name}}/post/{{post.id}}'>comments {{post.get_comment_count}}</a>
 </div>
