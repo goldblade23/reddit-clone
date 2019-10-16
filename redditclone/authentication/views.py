@@ -24,7 +24,7 @@ def index(request, *args, **kwargs):
         reddituser = RedditUser.objects.get(user=request.user)
     except:
         reddituser = ''
-    return render(request, html, {'data': posts, "reddituser":reddituser})
+    return render(request, html, {'data': posts, "reddituser": reddituser})
 
 
 def signup(request):
@@ -70,3 +70,9 @@ def logout_view(request):
     logout(request)
     return HttpResponseRedirect(reverse('homepage'))
 
+
+def handler404(request):
+    return render(request, '404.html', status=404)
+
+def handler500(request):
+    return render(request, '500.html', status=500)

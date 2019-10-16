@@ -1,21 +1,19 @@
 {% extends 'base.html' %}
-{%  load static %}
+{% load crispy_forms_tags %}
 {%  block content %}
 <br>
-<br>
-<br>
-<div class="container rounded" style="background-color: #ECE8E8; max-width: 50%;">
+
+<div class="container rounded" style="background-color: #ECE8E8; max-width: 40%;">
     <br>
-    <h4>Add your text:</h4>
+    <h4 style="text-align: center;">Add your text:</h4>
     <hr>
 <form action="" method="post">
     <br>
     {% csrf_token %}
-    {{ form }}
-<br>
-<br>
+    {{ form|crispy }}
+<div style="text-align: center;">
     <button class="btn btn-success my-2 my-sm-0" type="submit">Submit</button>
-    
+</div> 
 </form>
 <br>
 </div>

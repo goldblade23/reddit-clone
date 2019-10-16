@@ -16,6 +16,7 @@ Including another URLconf
 from django.urls import path
 from django.contrib import admin
 
+
 from redditclone.redditUsers.models import RedditUser
 from redditclone.communitys.models import Community
 from redditclone.posts.models import Post
@@ -39,6 +40,9 @@ admin.site.register(Notification)
 urlpatterns = [
     path('admin/', admin.site.urls),
 ]
+
+# handler404 = redditclone.authentication.views.handler404
+# handler500 = redditclone.authentication.views.handler500
 
 urlpatterns += auth_urls
 urlpatterns += redditusers_urls

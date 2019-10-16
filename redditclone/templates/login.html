@@ -10,18 +10,20 @@
 
     {% csrf_token %}
     {{ form|crispy }}
+    <div style="text-align: center;">
     <button type="submit" value="Submit" class="btn btn-primary">Sign in</button>
     <br>
     <br>
   Not yet a ReadIt user?
-    <br>
-    <br>
+  <br>
+  <br>
     <a class="btn btn-success" href="/signup/" role="button">Sign up</a>
     <br>
     <br>
     <small id="emailHelp" class="form-text text-muted">We'll never share your information with anyone else.</small>
     <br>
     <br>
+  </div>
   </form>
 </div>
 <br>
