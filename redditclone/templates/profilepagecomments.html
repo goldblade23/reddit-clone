@@ -7,52 +7,74 @@
 <div class="container-fluid" style="background-color: #ECE8E8;">
         <div class="row">
            <div class='col-8'>
-            <div class='row'>
-                  <div class='col'>
-                        <button style='width: 100%; background-color: green'>Post</button>
-                  </div>
-                  <div class='col'>
-                        <button onclick='myfunction2()' style='width: 100%'>Comments</button>
+                  <div class='row'>
+                              <div class='col'>
+                                    <button onclick='myfunction2()' style='width: 100%; '>Post</button>
+                              </div>
+                              <div class='col'>
+                                   <button style='width: 100%; background-color: green'>Comments</button>
+                                    </div>
+            
                         </div>
-
-            </div>
               <div class='container'>
-                 {% for post in posts %}
-                    <div class="row round" style="background-color: white; margin-top: 5px; margin-bottom: 5px" >
+                 {% for comment in comments %}
+                   {% if comment.parent %} 
+
+                   <div class="row round" style="background-color: white; margin-top: 5px; margin-bottom: 5px" >
+                        <div class="card" style="width: 100%" >
+                              <div class="card-body">
+                               
+                               <h5 class="card-title">{{comment.parent.text}}</h2>
+                           
+                              
+                                  
+                                <h6 class="card-subtitle mb-2 text-muted">comment at <a href='/r/{{comment.parent.post.community.name}}/post/{{comment.parent.post.id}}'>{{comment.parent.post.title}}</a></h6>
+                                <hr>
+                                <p>by <a href='/profile/{{comment.parent.commenter.displayname}}'>{{comment.parent.commenter.displayname}}</a> - {{comment.parent.date}} - Likes: {{comment.parent.comment_likes.count}}</p>
+                                <p class="card-text">
+                                     
+                                             
+                              </div>
+                            </div>
+                            <!-- <div style="width:100%;border-style: solid"></div> --><hr>
+                            <div class="card" style="width: 100%" >
+                                    <div class="card-body" style='margin-left: 50px' >
+                                     
+                                     <h5 class="card-title">{{comment.text}}</h2>
+                                 
+                                    
+                                        
+                                      <h6 class="card-subtitle mb-2 text-muted">comment to <a href='/r/{{comment.post.community.name}}/post/{{comment.post.id}}'>{{comment.post.title}}</a></h6>
+                                      <hr>
+                                      <p>by <a href='/profile/{{comment.commenter.displayname}}'>{{comment.commenter.displayname}}</a> - {{comment.date}} - Likes: {{comment.comment_likes.count}}</p>
+                                      <p class="card-text">
+                                           
+                                                   
+                                    </div>
+                                  </div>
+                  </div>
+
+
+
+                   {% else %}
+                 <div class="row round" style="background-color: white; margin-top: 5px; margin-bottom: 5px" >
                           <div class="card" style="width: 100%" >
                                 <div class="card-body">
-                                 {% if post.urls %}
-                                   <h2 class="card-title"><a href='{{post.urls}}'>{{post.title}}</a></h2>
-                                 {% else %}
-                                 <h2 class="card-title"><a href='/r/{{post.community.name}}/post/{{post.id}}'>{{post.title}}</a></h2>
-                                 {% endif %}
+                                 
+                                 <h5 class="card-title">{{comment.text}}</h2>
+                             
                                 
-  
-                                  <h6 class="card-subtitle mb-2 text-muted">posted at <a href='/r/{{post.community.name}}'>r/{{post.community.name}}</a></h6>
-                                  <p>by <a href='/profile/{{post.author.displayname}}'>{{post.author.displayname}}</a> - {{post.date}}</p>
+                                    
+                                  <h6 class="card-subtitle mb-2 text-muted">comment to <a href='/r/{{comment.post.community.name}}/post/{{comment.post.id}}'>{{comment.post.title}}</a></h6>
+                                  <hr>
+                                  <p>by <a href='/profile/{{comment.commenter.displayname}}'>{{comment.commenter.displayname}}</a> - {{comment.date}} - Likes: {{comment.comment_likes.count}}</p>
                                   <p class="card-text">
-                                       <a href='/r/{{post.community.name}}/post/{{post.id}}'></a>
-                                               <hr>
-                                                        <p>{{post.text}}</p>
-                                                        <p><a href='{{post.urls}}'>{{post.urls}}</a></p>
-                                                        
-        
-                                   </p>
-                                   <hr>
-                                   <div class='row'>
-                                 <div class='col' style="text-align: center">
-                                   <span>Likes: {{post.post_likes.count}}</span>
-                                </div>
-                                <div class='col' style="text-align: center">
-                                  <a href="#" class="card-link">Share this post</a>
-                                </div>
-                                  <div class='col' style="text-align: center">
-                                  <a href="/r/{{post.community.name}}/post/{{post.id}}" class="card-link">Comment {{post.get_comment_count}}</a>
-                                </div>
-                             </div>
+                                       
+                                               
                                 </div>
                               </div>
                     </div>
+                    {% endif %}
                  {% endfor %}
               </div>
            </div>
@@ -175,9 +197,9 @@
 
 
      <script>
-           function  myfunction2(){
-   location.href = "/profile/{{reddituser.displayname}}/comments"
-  }    
+         function  myfunction2(){
+   location.href = "/profile/{{reddituser.displayname}}"
+  }   
             
      </script> 
 

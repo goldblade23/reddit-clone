@@ -146,4 +146,3 @@ class PostViewSet(ModelViewSet):
             "status": "Failure"
         })
 
-

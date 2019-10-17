@@ -5,40 +5,110 @@
 {% block content %}
 
 <div class="container-fluid" style="background-color: #ECE8E8;">
-        <div class="row">
-           <div class='col-8'>
-              <div class='container'>
-                 {% for i in data %}
-                    <div class="row round" style="background-color: white; margin-top: 5px; margin-bottom: 5px" >
-                          <div class="card" style="width: 100%" >
-                                <div class="card-body">
-                                  <h4 class="card-title">r/{{post.name}}</h4>
-                                  <p class="card-text">
-                                       <a href='/r/{{post.community.name}}/post/{{post.id}}'></a>
-                                                        <p style="text-align: left">{{post.text}}</p>
-                                                        <p style="text-align: left">Date: {{post.date}}</p>
-                                                        <p>Likes: {{post.post_likes.count}}</p>
-                                   </p>
-                                  <a href="#" class="card-link">Share this post</a>
-                                  <a href="#" class="card-link">Comment</a>
-                                </div>
-                              </div>
-                    </div>
-                 {% endfor %}
-              </div>
-           </div>
+            <div class="row">
+               <div class='col-8'>
+                  <div class='container'>
+                     {% for post in data %}
+                        <div class="row round" style="background-color: white; margin-top: 5px; margin-bottom: 5px" >
+                              <div id="this one" class="card" style="width: 100%;" >
+                                    <div class="card-body">
+                                     {% if post.urls %}
+                                       <h2 class="card-title"><a href='{{post.urls}}'>{{post.title}}</a></h2>
+                                     {% else %}
+                                     <h2 class="card-title"><a href='/r/{{post.community.name}}/post/{{post.id}}'>{{post.title}}</a></h2>
+                                     {% endif %}
+                                    
+      
+                                      <!-- <h6 class="card-subtitle mb-2 text-muted">posted at <a href='/r/{{post.community.name}}'>r/{{post.community.name}}</a></h6> -->
+                                      <p>by <a href='/profile/{{post.author.displayname}}'>{{post.author.displayname}}</a> - {{post.date}}</p>
+                                      <p class="card-text">
+                                           <a href='/r/{{post.community.name}}/post/{{post.id}}'></a>
+                                                   <hr>
+                                                            <p>{{post.text}}</p>
+                                                            <p><a href='{{post.urls}}'>{{post.urls}}</a></p>
+                                                            
+            
+                                       </p>
+                                       <hr>
+                                       <div class='row'>
+                                                {% if currentuser in community.moderators.all %}  
+                                          <div class='col' style="text-align: center">
+                                                            <button onclick='postdelete(event)' id='p-d-{{post.id}}' style="background-color: red">Delete</button>
+                                                         </div>
+                                                         {% elif currentuser == post.author %}
+                                                         <div class='col' style="text-align: center">
+                                                                  <button onclick='postdelete(event)' id='p-d-{{post.id}}' style="background-color: red">Delete</button>
+                                                               </div>
+                                                            {% endif %}
+
+                                     <div class='col' style="text-align: center">
+                                       <span>Likes: {{post.post_likes_count}}</span>
+                                    </div>
+                                    <div class='col' style="text-align: center">
+                                      <a href="#" class="card-link">Share this post</a>
+                                    </div>
+                                      <div class='col' style="text-align: center">
+                                      <a href="/r/{{post.community.name}}/post/{{post.id}}" class="card-link">Comment {{post.get_comment_count}}</a>
+                                    </div>
+                                 </div>
+                                    </div>
+                                  </div>
+                        </div>
+                     {% endfor %}
+                  </div>
+               </div>
+               <!-- ---------------------------------------------------------------------------------------------- -->
            <div class='col-4'>
               <div class='container-fluid' style="width: 100%">
                     <div class="row" style="background-color: white; margin-top: 5px; margin-bottom: 5px" >
                           <div class="card" style="width: 100%" >
-                                <img class="card-img-top" style="width:100px; margin-left: 40%; margin-top: 5px;" src="{% static "images/glasses4.png" %}" >
-                                                                                                                    
+                                    <div class="card-header">
+                                                <h3 style="color: #FF4E00;">community details:</h3>
+                                             </div>
+                                <!-- <img class="card-img-top" style="width:100px; margin-left: 40%; margin-top: 5px;" src='{% static "images/glasses4.png" %}' > -->
+                              <div class='row'>
+                                    <div class='col-4' style="margin-left: 10px">
+                                                <br>
+                                                
+                                          <img src="{% static 'images/glasses4.png' %}" style='width:100%;height:100%;' alt="logo" class="rounded">
+                                    </div>
+                                    <br>
+                                    <div class='col'>
+                                                <br>
+                                                <br>
+                                          <h3 class="card-title">r/{{community.name}}</h3>
+                                    </div>
+                              </div>     
+                                                                                                
                                 <div class="card-body">
-                                  <h3 class="card-title">r/{{post.community.name}}</h3>
+                                          <hr>         
+                                    <div class='row' style="text-align: center">
+                                          <div class=col>
+                                                      <p>{{community.subscriber.all.count}}</p>
+                                                      <h6>subscribers</h6>
+                                          </div>
+                                          <div class=col>
+                                                <div style='border-left: 2px solid green;height: 100%;position: absolute;left: 50%;margin-left: -3px;top: 0;'></div>
+                                                </div>
+                                                <div class=col>
+                                                      <p>{{community.date_only}}</p>
+                                                      <h6>birthday</h6>
+                                                      </div>
+                                                     
+                                    </div>
+                                    <hr> 
+                                  <p>{{community.description}}</p>
                                   <br>
-                                  <a class="btn btn-success" href="#" role="button">Subscribe</a>
-                                  <hr>
                                   {% if request.user.is_authenticated %}
+                                  <hr>
+                                    {% if currentuser in community.subscriber.all %}
+                                  <a class="btn btn-success" href="/r/{{community.name}}/unsubsribe" role="button" style='width:100%'>Unsubscribe</a>
+                                    {% else %}
+                                    <a class="btn btn-success" href="/r/{{community.name}}/subsribe" role="button" style='width:100%'>Subscribe</a>
+                                    {% endif %}
+                                  <hr>
+
+                                  
                                   <p class="card-text"><h4>Create a new post:</h4>
                                     <br>
                                     <div style="text-align: center;">
@@ -46,8 +116,9 @@
                                     or
                                     <a class="btn btn-primary" href="/r/{{community.name}}/addlinkpost" role="button">Link</a></p>
     
-                                  {% endif %}
+                                  
                                 </div>
+                                {% endif %}
                                 </div>
                               </div>
                     </div>
@@ -70,7 +141,9 @@
                                        <h3 style="color: #FF4E00; text-align: left;">Moderators:</h3>
                                     </div>
                                 <div class="card-body">
-                                    Moderators go here
+                                    {% for i in community.moderators.all%}
+                                          <p>{{i.displayname}}</p>
+                                    {% endfor %}
                                 </div>
                               </div>
                     </div>
@@ -99,6 +172,20 @@
      </div>
 
 
+     <script>
 
+            function postdelete(event){
+            
+                var a = event.target.id
+                var b = a.split('-')
+                var c = b[b.length-1]
+                console.log("/api/post/" + c + "/delete")
+                var x = document.getElementById(event.target.parentNode.parentNode.parentNode.parentNode.id)
+
+                x.style.backgroundColor = "red"
+                fetch("/api/post/" + c + "/delete")
+            }
+            
+            </script>
 
 {% endblock %}

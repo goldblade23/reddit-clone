@@ -6,44 +6,23 @@
       <div class="row">
          <div class='col-8'>
             <div class='container'>
-               {% for post in data %}
-                  <div class="row round" style="background-color: white; margin-top: 5px; margin-bottom: 5px" >
-                        <div class="card" style="width: 100%" >
-                              <div class="card-body">
-                               {% if post.urls %}
-                                 <h2 class="card-title"><a href='{{post.urls}}'>{{post.title}}</a></h2>
-                               {% else %}
-                               <h2 class="card-title"><a href='r/{{post.community.name}}/post/{{post.id}}'>{{post.title}}</a></h2>
-                               {% endif %}
-                              
+               
+                
 
-                                <h6 class="card-subtitle mb-2 text-muted">posted at <a href='/r/{{post.community.name}}'>r/{{post.community.name}}</a></h6>
-                                <p>by <a href='/profile/{{post.author.displayname}}'>{{post.author.displayname}}</a> - {{post.date}}</p>
-                                <p class="card-text">
-                                     <a href='/r/{{post.community.name}}/post/{{post.id}}'></a>
-                                             <hr>
-                                                      <p>{{post.text}}</p>
-                                                      <p><a href='{{post.urls}}'>{{post.urls}}</a></p>
-                                                      
-      
-                                 </p>
-                                 <hr>
-                                 <div class='row'>
-                               <div class='col' style="text-align: center">
-                                 <span>Likes: {{post.post_likes.count}}</span>
-                              </div>
-                              <div class='col' style="text-align: center">
-                                <a href="#" class="card-link">Share this post</a>
-                              </div>
-                                <div class='col' style="text-align: center">
-                                <a href="r/{{post.community.name}}/post/{{post.id}}" class="card-link">Comment {{post.get_comment_count}}</a>
-                              </div>
-                           </div>
-                              </div>
-                            </div>
+                  <div class="row round" style="background-color: white;margin-top: 5px; margin-bottom: 5px" >
+                    <div class='col'>
+                    <ol style='display:table; margin:0 auto;'>
+                        {% for i in community %}
+                        <h3 ><li><a href='/r/{{i.name}}'>r/{{i.name}}</a></li></h3>
+                      {% endfor %}
+                    </ol>
+                    </div>
                   </div>
-               {% endfor %}
+
+               
+                
             </div>
+
          </div>
          <div class='col-4'>
             <div class='container-fluid'>
@@ -73,11 +52,11 @@
                               <div class="card-body">
                                      <a href='/r/{{post.community.name}}/post/{{post.id}}'></a>
                                      <ol>
-                                        {%for i in community%}
+                                        {%for i in community2%}
                                           <li><a href="/r/{{i.name}}">r/{{i.name}}</a></li>
                                        {% endfor %}
                                         </ol>
-                                        <button onclick="myfunction2()"style="width:100%">View all</button>
+                                        <button onclick='myfunction2()'style="width:100%">View all</button>
                               </div>
                             </div>
                   </div>
