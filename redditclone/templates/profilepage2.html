@@ -1,0 +1,53 @@
+<!-- {% extends 'base.html' %}
+{%  load static %}
+{%  block content %}
+
+<h1>name</h1>
+{{reddituser.displayname}}
+
+<h1>bio</h1>
+{{reddituser.bio}}
+
+<h1>post like count</h1>
+{{ post_likes}}
+
+<h1>comment like count</h1>
+{{ comment_likes}}
+
+<h1>subsribed</h1>
+
+
+<h1>moderator of</h1>
+{% for i in community_mod %}
+
+<p>r/{{i.name}}</p>
+{% endfor %}
+
+<h1>comments</h1>
+
+{% for i in comments %}
+<hr>
+<p>{{i.text}}</p>
+<p>{{i.date}}</p>
+<p>{{i.comment_likes_count}}</p>
+<p>comment at {{i.post.title}}</p>
+
+{% endfor %}
+<hr>
+<h1>posts</h1>
+{% for i in posts %}
+<hr>
+<p>{{i.title}}</p>
+<p>{{i.text}}</p>
+<p>{{i.link}}</p>
+<p>r/{{i.community.name}}</p>
+<p>{{i.date}}</p>
+<p>{{i.post_likes_count}}</p>
+<p>{{i.get_comment_count}}</p>
+
+{% endfor %}
+<hr>
+
+<h1>subsribed community posts</h1>
+
+{%  endblock %} -->

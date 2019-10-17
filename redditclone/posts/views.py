@@ -92,15 +92,18 @@ def add_linkpost(request, commun, *args, **kwargs):
     return render(request,html,{'form': form})
 
 def post_community_view(request,  commun, *args, **kwargs):
-    html = "communitypage.html"
+    html = "communitypage2.html"
     try:
         current_user = RedditUser.objects.get(user=request.user)
     except:
         current_user = False
     community = Community.objects.get(name=commun)
     posts = Post.objects.filter(community=community).filter(post_removed=False).order_by('-date')
-
-    return render(request, html, {'data': posts, "community": community, "currentuser":current_user})
+    
+    x = str(community.date)
+    x = x.split(", ")
+    x=x[0]
+    return render(request, html, {'data': posts, "community": community, "currentuser":current_user, "date":x})
 
 
 def post_like(request, id, *args, **kwargs):

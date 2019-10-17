@@ -11,4 +11,6 @@ class RedditUser(models.Model):
     def __str__(self):
         return self.displayname
 
+    #  def date_only(self):
+    #     return self.birthdate.date()
 

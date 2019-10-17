@@ -12,7 +12,7 @@ class Post(models.Model):
     community = models.ForeignKey(Community, on_delete=models.CASCADE)
     urls = models.URLField(max_length=250)
     title = models.CharField(max_length=100)
-    text = models.TextField(max_length=200)
+    text = models.TextField(max_length=1000)
     author = models.ForeignKey(RedditUser, on_delete=models.CASCADE)
     date = models.DateTimeField(auto_now_add=True,blank=True)
     post_removed = models.BooleanField(default=False)

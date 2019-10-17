@@ -8,12 +8,12 @@ flake8 = "*"
 
 [packages]
 django = "*"
-py-three = "*"
 django-bootstrap3 = "*"
 django-bootstrap4 = "*"
 django-crispy-forms = "*"
 django-mptt = "*"
 djangorestframework = "*"
+python-dotenv = "*"
 
 [requires]
 python_version = "3.7"

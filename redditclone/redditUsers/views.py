@@ -35,5 +35,27 @@ def profile_page(request, name, *args, **kwargs):
         c_like_count +=  i.comment_likes.all().count() - i.comment_dislikes.all().count()
 
     communitys = Community.objects.filter(moderators = reddituser)
+    communitys_subsribed = Community.objects.filter(subscriber = reddituser)
 
-    return render(request, html, {'reddituser': reddituser, 'posts': posts, 'post_likes':p_like_count, 'comments': comments, 'comment_likes': c_like_count, 'community_mod':communitys})
+    return render(request, html, {'reddituser': reddituser, 'posts': posts, 'post_likes':p_like_count, 'comments': comments, 'comment_likes': c_like_count, 'community_mod':communitys, 'community_subsribed':communitys_subsribed})
+
+
+def profile_page_comments(request, name, *args, **kwargs):
+        html = 'profilepagecomments.html'
+
+        reddituser = RedditUser.objects.get(displayname=name)
+        
+        posts=Post.objects.filter(author=reddituser)
+        p_like_count = 0
+        for i in posts:
+            p_like_count += i.post_likes.all().count() - i.post_dislikes.all().count()
+
+        comments = Comment.objects.filter(commenter=reddituser)
+        c_like_count = 0
+        for i in comments:
+            c_like_count +=  i.comment_likes.all().count() - i.comment_dislikes.all().count()
+
+        communitys = Community.objects.filter(moderators = reddituser)
+        communitys_subsribed = Community.objects.filter(subscriber = reddituser)
+
+        return render(request, html, {'reddituser': reddituser, 'posts': posts, 'post_likes':p_like_count, 'comments': comments, 'comment_likes': c_like_count, 'community_mod':communitys, 'community_subsribed':communitys_subsribed})
